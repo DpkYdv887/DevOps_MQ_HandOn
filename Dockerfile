@@ -1,14 +1,20 @@
-# Using jdk as base image
+# Use an appropriate base image for macOS compatibility
 FROM adoptopenjdk/openjdk11:alpine
 
-# Copy the whole directory of activemq into the image
-COPY apache-activemq-5.17.0 /opt/apache-activemq-5.17.0
+# Indicate that the project is using an unreleased (development) snapshot version of ActiveMQ 6.2.0
+LABEL description="This project uses an unreleased (development) snapshot version of ActiveMQ 6.2.0."
 
-# Set the working directory to the bin folder 
-WORKDIR /opt/apache-activemq-5.17.0/bin
+# Copy the whole directory of ActiveMQ into the image
+COPY apache-activemq-6.2.0-SNAPSHOT /opt/apache-activemq-6.2.0-SNAPSHOT
 
-# Expose port
+# Set the working directory to the bin folder
+WORKDIR /opt/apache-activemq-6.2.0-SNAPSHOT/bin
+
+# Expose the required ports
 EXPOSE 61616 8161
 
-# Start up the activemq server
-ENTRYPOINT ["./activemq","console"]
+# Ensure correct execution permissions for scripts
+RUN chmod +x /opt/apache-activemq-6.2.0-SNAPSHOT/bin/activemq
+
+# Start up the ActiveMQ server
+ENTRYPOINT ["sh", "-c", "./activemq console"]
