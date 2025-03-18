@@ -1,5 +1,6 @@
 # Use an appropriate base image for macOS compatibility
-FROM adoptopenjdk/openjdk11:alpine
+FROM eclipse-temurin:11-jdk-alpine
+
 
 # Indicate that the project is using an unreleased (development) snapshot version of ActiveMQ 6.2.0
 LABEL description="This project uses an unreleased (development) snapshot version of ActiveMQ 6.2.0."
